@@ -1,0 +1,27 @@
+<textarea id="i"></textarea><textarea id="e" placeholder="Стоп-слова на каждой новой строке без ведущих пробелов"></textarea><button id="b">COUNT</button><textarea id="o"></textarea>
+<table id="t"></table>
+<script>
+    count = function(text,exclude){
+        list = []; ex = exclude.split('\n');
+        text.replaceAll(/[^ \-\'A-Za-zЀ-ԯ]/gi, '').toLowerCase().split(' ').forEach(e => {
+            if (!ex.includes(e)) {
+                if (list[e]) { list[e] += 1} else { list[e] = 1}
+            }
+        });
+        list.sort();
+        ti = [];
+        Object.keys(list).forEach(e => {
+            ti.push([list[e],e])
+        })
+        ti.sort((a,b)=>{
+            return a[0] > b[0] ? -1 : 1;
+        })
+        return ti;
+    }
+    document.getElementById('b').onclick = () => {
+        document.getElementById('o').value = '';
+        count(document.getElementById('i').value, document.getElementById('e').value).forEach(e=>{
+            document.getElementById('o').value += e[0] + '\t' + e[1] + '\n';
+        })
+        }
+</script>
